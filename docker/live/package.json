@@ -1,0 +1,17 @@
+{
+  "name": "react-native-remote-test-server",
+  "version": "0.0.1",
+  "config": {
+    "unsafe-perm": true
+  },
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-body": "^2.5.0",
+    "koa-http-request": "^2.2.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1"
+  }
+}

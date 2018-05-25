@@ -336,6 +336,7 @@ app.get('/nodes', (req, res) => {
         try {
           const check = JSON.parse(response.body);
           if (check.cpu_percent > 0) {
+            check.config = get_node;
             addData(check);
             if (config.elasticsearch) {
               elasticsearch_monitoring(check.cpu_percent / check.cpu_cores, check.hostname, check.disk_percentage, check.memory_percentage, check.total_running_containers);
@@ -525,6 +526,8 @@ app.get('/start', (req, res) => {
     container = '*';
   }
 
+  let resBody = {};
+
   Object.keys(config.layout).forEach((get_node, i) => {
     Object.keys(config.layout[i]).forEach(key => {
       const node = config.layout[i].node;
@@ -550,6 +553,8 @@ app.get('/start', (req, res) => {
       };
 
       if ((container.indexOf('*') > -1) || key.indexOf(container) > -1) {
+        resBody = {scheme, node, container_args: config.layout[i][key]};
+
         request(options, (error, response) => {
           if (error) {
             res.end('An error has occurred.');
@@ -561,7 +566,7 @@ app.get('/start', (req, res) => {
       }
     });
   });
-  res.end('');
+  res.json(resBody);
 });
 
 function migrate(container, original_host, new_host, original_container_data, uuid) {
