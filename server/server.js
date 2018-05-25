@@ -169,7 +169,7 @@ function automatic_heartbeat() {
  * Check credentials (token)
  */
 app.use(function(req, res, next) {
-  const check_token = req.query.token;
+  const check_token = req.query.token || req.body.token;
 
   if ((check_token !== token) || (!check_token)) {
     res.end('\nError: Invalid Credentials');
